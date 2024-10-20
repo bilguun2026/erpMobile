@@ -1,4 +1,5 @@
 import 'package:erp_1/screens/dashboard.dart';
+import 'package:erp_1/screens/job.dart';
 import 'package:erp_1/screens/tender.dart';
 import 'package:flutter/material.dart';
 import 'screens/login.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardScreen(),
         '/tenders': (context) => TenderScreen(),
+        '/jobs': (context) => JobScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -31,13 +31,19 @@ class Tender {
       id: json['id'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
-      totalCoalQuantity: json['total_coal_quantity'] as int?,
+      totalCoalQuantity: json['total_coal_quantity'] is double
+          ? (json['total_coal_quantity'] as double).toInt()
+          : json['total_coal_quantity'] as int?,
       origin: json['origin'] as String?,
       destination: json['destination'] as String?,
       deadline: json['deadline'] as String?,
       status: json['status'] as String?,
-      totalJobCoalQuantity: json['total_job_coal_quantity'] as int?,
-      percentage: json['percentage'] as int?,
+      totalJobCoalQuantity: json['total_job_coal_quantity'] is double
+          ? (json['total_job_coal_quantity'] as double).toInt()
+          : json['total_job_coal_quantity'] as int?,
+      percentage: json['percentage'] is double
+          ? (json['percentage'] as double).toInt()
+          : json['percentage'] as int?,
       jobs: jobsList != null
           ? jobsList.map((job) => Job.fromJson(job)).toList()
           : [],
@@ -74,14 +80,20 @@ class Job {
     var transportList = json['transports'] as List<dynamic>?;
     return Job(
       id: json['id'] as String?,
-      remainingCoalQuantity: json['remaining_coal_quantity'] as int?,
-      percentage: json['percentage'] as int?,
+      remainingCoalQuantity: json['remaining_coal_quantity'] is double
+          ? (json['remaining_coal_quantity'] as double).toInt()
+          : json['remaining_coal_quantity'] as int?,
+      percentage: json['percentage'] is double
+          ? (json['percentage'] as double).toInt()
+          : json['percentage'] as int?,
       origin: json['origin'] as String?,
       destination: json['destination'] as String?,
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
       jobStatus: json['job_status'] as String?,
-      jobCoalQuantity: json['job_coal_quantity'] as int?,
+      jobCoalQuantity: json['job_coal_quantity'] is double
+          ? (json['job_coal_quantity'] as double).toInt()
+          : json['job_coal_quantity'] as int?,
       transports: transportList != null
           ? transportList
               .map((transport) => Transport.fromJson(transport))
@@ -113,11 +125,17 @@ class Transport {
   factory Transport.fromJson(Map<String, dynamic> json) {
     return Transport(
       id: json['id'] as String?,
-      remainingJobQuantity: json['remaining_job_quantity'] as int?,
-      percentage: json['percentage'] as int?,
+      remainingJobQuantity: json['remaining_job_quantity'] is double
+          ? (json['remaining_job_quantity'] as double).toInt()
+          : json['remaining_job_quantity'] as int?,
+      percentage: json['percentage'] is double
+          ? (json['percentage'] as double).toInt()
+          : json['percentage'] as int?,
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
-      transportWeight: json['transport_weight'] as int?,
+      transportWeight: json['transport_weight'] is double
+          ? (json['transport_weight'] as double).toInt()
+          : json['transport_weight'] as int?,
       status: json['status'] as String?,
     );
   }

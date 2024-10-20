@@ -49,6 +49,13 @@ class CustomScaffold extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: Icon(Icons.list),
+              title: Text('Ажил'),
+              onTap: () async {
+                await _job(context); // Navigate to tenders
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () async {
@@ -72,6 +79,10 @@ class CustomScaffold extends StatelessWidget {
 
   Future<void> _tender(BuildContext context) async {
     Navigator.pushReplacementNamed(context, '/tenders');
+  }
+
+  Future<void> _job(BuildContext context) async {
+    Navigator.pushReplacementNamed(context, '/jobs');
   }
 
   Future<void> _dashboard(BuildContext context) async {

@@ -33,9 +33,11 @@ class _TenderScreenState extends State<TenderScreen> {
       // Handle errors here
       print('Error fetching tenders: $e');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
