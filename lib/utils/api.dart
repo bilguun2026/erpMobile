@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiUtils {
   // Base URL of your backend
-  static const String baseUrl = 'http://192.168.175.67:8000/';
+  static const String baseUrl = 'http://192.168.175.67:8000';
 
   // GET request with optional token
   static Future<dynamic> get(String endpoint, {String? token}) async {

@@ -1,4 +1,5 @@
 import 'package:erp_1/screens/dashboard.dart';
+import 'package:erp_1/screens/tender.dart';
 import 'package:flutter/material.dart';
 import 'screens/login.dart';
 
@@ -14,11 +15,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // Define the routes for navigation
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardScreen(),
+        '/tenders': (context) => TenderScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

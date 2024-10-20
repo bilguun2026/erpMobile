@@ -1,7 +1,9 @@
 import 'package:erp_1/screens/login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../utils/storage.dart'; // For token removal and retrieval
 import '../utils/api.dart'; // For making API requests
+import 'package:erp_1/widgets/appBar.dart'; // Import CustomScaffold
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -22,24 +24,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // Fetch token and data from the API
   Future<void> _fetchDashboardData() async {
     try {
-      // Retrieve the token using StorageUtils
       token = await StorageUtils.getToken();
 
       if (token == null) {
-        // If no token is found, log the user out
         print("No token found, logging out...");
         _logout(context);
         return;
       }
 
-      // Print the token for debugging
-      print("Token found: $token");
-
-      // Use the token to fetch data from the endpoint
       final response = await ApiUtils.get('dashboard/', token: token);
 
       if (response == null || response.isEmpty) {
-        // If the response is empty or invalid, handle gracefully
         print('Empty or invalid response from API');
         _logout(context);
       } else {
@@ -53,63 +48,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _isLoading = false;
       });
       print('Error fetching dashboard data: $error');
-      // Show an error message instead of logging out immediately
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error fetching dashboard data.')),
       );
     }
   }
 
-  // Logout function
   Future<void> _logout(BuildContext context) async {
-    // Remove token using StorageUtils
     await StorageUtils.clearToken();
-
-    // Navigate back to the login screen
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
-      (route) => false, // Remove all routes behind
+      (route) => false,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Dashboard"),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Dashboard Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () async {
-                await _logout(context);
-              },
-            ),
-          ],
-        ),
-      ),
+    return CustomScaffold(
+      title: "Dashboard",
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : dashboardData != null
               ? RefreshIndicator(
-                  onRefresh: _fetchDashboardData, // Swipe to refresh
+                  onRefresh: _fetchDashboardData,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: _buildJobAndTransportList(),
@@ -119,65 +81,326 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Widget _buildJobCard(Map<String, dynamic> job, double screenWidth) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.white,
+              elevation: 4,
+              child: Container(
+                width: screenWidth * 1.0,
+                height: 200,
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 30), // space for the tab
+                    Text("Нийт тонн: ${job['job_coal_quantity']}",
+                        style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text("Эхлэх хугацаа:"),
+                        Spacer(),
+                        Text("Дуусах хугацаа:"),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text("${job['startDate']}"),
+                        Spacer(),
+                        Text("${job['endDate']}"),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Text("Хаанаас: ${job['origin']}"),
+                    SizedBox(height: 8),
+                    Text("Хаашаа: ${job['destination']}"),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 30,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Ажил',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 20,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                ),
+                child: Text('${job['job_tender_name']}',
+                    style: TextStyle(fontSize: 16)),
+              ),
+            ),
+            Positioned(
+              right: 20,
+              bottom: 20,
+              width: 60,
+              height: 60,
+              child: CircularProgressIndicator(
+                value: job['percentage'] / 100,
+                strokeWidth: 6,
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Color.fromARGB(255, 76, 244, 54)),
+              ),
+            ),
+            Positioned(
+              right: 35,
+              bottom: 40,
+              child: Text(
+                "${job["percentage"]}% ",
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              left: 20,
+              child: Text("${job['job_status']}"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildJobAndTransportList() {
     if (dashboardData == null) return Text('No jobs or transports found.');
     var jobs = dashboardData!['jobs'] ?? [];
     var transports = dashboardData!['transports'] ?? [];
-
+    double screenWidth = MediaQuery.of(context).size.width;
     return ListView.builder(
       itemCount: jobs.length + transports.length,
       itemBuilder: (context, index) {
         if (index < jobs.length) {
-          // Display jobs
           var job = jobs[index];
-          return Card(
-              margin: EdgeInsets.symmetric(vertical: 16),
-              child: Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Positioned(
-                    top: 15,
-                    child: Text(
-                      'Job ${job['job_tender_name']}',
-                      style: TextStyle(color: Colors.white),
-                    )),
-              )
-
-              // ListTile(
-              //   title: Text('Job ${index + 1}'),
-              //   subtitle: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text('Coal Quantity: ${job['job_coal_quantity']} tons'),
-              //       Text('Origin: ${job['origin']}'),
-              //       Text('Destination: ${job['destination']}'),
-              //       Text('Status: ${job['job_status']}'),
-              //     ],
-              //   ),
-              // ),
-              );
+          return _buildJobCard(job, screenWidth);
         } else {
-          // Display transports
           var transport = transports[index - jobs.length];
-          return Card(
-            margin: EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              title: Text('Transport ${index + 1 - jobs.length}'),
-              subtitle: Column(
+          return _buildTransportCard(transport, screenWidth);
+        }
+      },
+    );
+  }
+
+  Widget _buildTransportCard(
+      Map<String, dynamic> transport, double screenWidth) {
+    return Container(
+      margin: EdgeInsets.only(top: 12),
+      child: Stack(
+        children: [
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            color: Colors.white,
+            elevation: 4,
+            child: Container(
+              width: screenWidth * 1.0,
+              height: 400,
+              padding: EdgeInsets.all(16),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Weight: ${transport['transport_weight']} kg'),
+                  SizedBox(height: 30), // space for the tab
+                  Text("Нийт тонн: ${transport['transport_weight']}",
+                      style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 8),
+                  Row(children: [
+                    Text("Эхлэх хугацаа:"),
+                    Spacer(),
+                    Text("Дуусах хугацаа:"),
+                  ]),
+                  SizedBox(height: 8),
+                  Row(children: [
+                    Text("${transport['startDate']}"),
+                    Spacer(),
+                    Text("${transport['endDate']}"),
+                  ]),
+                  SizedBox(height: 16),
+                  _buildTransportProgress(transport, screenWidth),
+                  SizedBox(height: 16),
                   Text(
-                      'Vehicle: ${transport['vehicle_registration_number']} (${transport['vehicle_capacity']} kg)'),
-                  Text('Status: ${transport['status']}'),
+                      "Тээврийн хэрэгсийн улсын дугаар: ${transport['vehicle_registration_number']}"),
+                  SizedBox(height: 8),
+                  Text(
+                      "Тээврийн хэрэгслийн даац: ${transport['vehicle_capacity']}"),
+                  SizedBox(height: 8),
+                  Text(
+                    "Тээврийн хэрэгслийн аюулгүй байдал: ${transport['vehicle_safety'] == true ? 'Аюулгүй' : 'Асуудалтай'}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 16),
+                  _buildNoteButtons(transport),
                 ],
               ),
             ),
-          );
-        }
+          ),
+          Positioned(
+            top: 0,
+            left: 30,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Text(
+                'Тээвэрлэлт',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 20,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Text('${transport['job_tender_name']}',
+                  style: TextStyle(fontSize: 16)),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            child: Text("${transport['status']}"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransportProgress(
+      Map<String, dynamic> transport, double screenWidth) {
+    return Container(
+      height: 40,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: LinearProgressIndicator(
+                value: transport['percentage'] / 100,
+                minHeight: 8,
+                backgroundColor: Colors.grey[300],
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 500),
+            left: (screenWidth - 40) * (transport['percentage'] / 100),
+            top: 0,
+            child: Icon(
+              Icons.directions_car,
+              size: 30,
+              color: Colors.red,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoteButtons(Map<String, dynamic> transport) {
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            _showNoteDialog(
+              context,
+              'А тэмдэглэл',
+              transport['point_a_note'] != null
+                  ? transport['point_a_note']['note']
+                  : 'Тэмдэглэл байхгүй байна',
+            );
+          },
+          child: Text('А тэмдэглэл'),
+        ),
+        SizedBox(width: 8),
+        ElevatedButton(
+          onPressed: () {
+            _showNoteDialog(
+              context,
+              'Б тэмдэглэл',
+              transport['point_b_note'] != null
+                  ? transport['point_b_note']['note']
+                  : 'Тэмдэглэл байхгүй байна',
+            );
+          },
+          child: Text('Б тэмдэглэл'),
+        ),
+        SizedBox(width: 8),
+        ElevatedButton(
+          onPressed: () {
+            _showNoteDialog(
+              context,
+              'Ерөнхий тэмдэглэл',
+              transport['general_supervisor_note'] != null
+                  ? transport['general_supervisor_note']['note']
+                  : 'Тэмдэглэл байхгүй байна',
+            );
+          },
+          child: Text('Ерөнхий'),
+        ),
+      ],
+    );
+  }
+
+  void _showNoteDialog(BuildContext context, String title, String note) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(note),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       },
     );
   }
