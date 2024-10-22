@@ -1,8 +1,8 @@
 import 'package:erp_1/screens/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../utils/storage.dart'; // For token removal and retrieval
-import '../utils/api.dart'; // For making API requests
+import '../../utils/storage.dart'; // For token removal and retrieval
+import '../../utils/api.dart'; // For making API requests
 import 'package:erp_1/widgets/appBar.dart'; // Import CustomScaffold
 
 class DashboardScreen extends StatefulWidget {

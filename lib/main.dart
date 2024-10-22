@@ -1,6 +1,6 @@
-import 'package:erp_1/screens/dashboard.dart';
-import 'package:erp_1/screens/job.dart';
-import 'package:erp_1/screens/tender.dart';
+import 'package:erp_1/screens/dashboard/dashboard.dart';
+import 'package:erp_1/screens/job/job.dart';
+import 'package:erp_1/screens/tender/tender.dart';
 import 'package:flutter/material.dart';
 import 'screens/login.dart';
 

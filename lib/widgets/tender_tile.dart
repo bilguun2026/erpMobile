@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:erp_1/models/tenderModel.dart'; // Adjust path to where the Tender model is
+import 'package:erp_1/models/Models.dart'; // Adjust path to where the Tender model is
 
 class TenderTile extends StatelessWidget {
   final Tender tender;

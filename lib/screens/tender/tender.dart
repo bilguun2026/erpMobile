@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:erp_1/models/tenderModel.dart'; // Adjust path
+import 'package:erp_1/models/Models.dart'; // Adjust path
 import 'package:erp_1/utils/tenderService.dart'; // Adjust path
-import 'package:erp_1/widgets/tender_title.dart'; // Adjust path
+import 'package:erp_1/widgets/tender_tile.dart'; // Adjust path
 import 'package:erp_1/widgets/appBar.dart'; // Import CustomScaffold
-import 'package:erp_1/screens/CreateTender.dart'; // Import the create tender screen
-import 'package:erp_1/screens/tenderDetail.dart'; // Import TenderDetailScreen
+import 'package:erp_1/screens/tender/CreateTender.dart'; // Import the create tender screen
+import 'package:erp_1/screens/tender/tenderDetail.dart'; // Import TenderDetailScreen
 
 class TenderScreen extends StatefulWidget {
   @override

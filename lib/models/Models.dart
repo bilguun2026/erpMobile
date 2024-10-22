@@ -78,12 +78,14 @@ class Job {
 
   factory Job.fromJson(Map<String, dynamic> json) {
     var transportList = json['transports'] as List<dynamic>?;
+
     return Job(
       id: json['id'] as String?,
-      remainingCoalQuantity: json['remaining_coal_quantity'] is double
+      remainingCoalQuantity: (json['remaining_coal_quantity'] is double)
           ? (json['remaining_coal_quantity'] as double).toInt()
-          : json['remaining_coal_quantity'] as int?,
-      percentage: json['percentage'] is double
+          : json['remaining_coal_quantity']
+              as int?, // Handle double to int conversion
+      percentage: (json['percentage'] is double)
           ? (json['percentage'] as double).toInt()
           : json['percentage'] as int?,
       origin: json['origin'] as String?,
@@ -91,9 +93,10 @@ class Job {
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
       jobStatus: json['job_status'] as String?,
-      jobCoalQuantity: json['job_coal_quantity'] is double
+      jobCoalQuantity: (json['job_coal_quantity'] is double)
           ? (json['job_coal_quantity'] as double).toInt()
-          : json['job_coal_quantity'] as int?,
+          : json['job_coal_quantity']
+              as int?, // Handle double to int conversion
       transports: transportList != null
           ? transportList
               .map((transport) => Transport.fromJson(transport))
@@ -125,17 +128,18 @@ class Transport {
   factory Transport.fromJson(Map<String, dynamic> json) {
     return Transport(
       id: json['id'] as String?,
-      remainingJobQuantity: json['remaining_job_quantity'] is double
+      remainingJobQuantity: (json['remaining_job_quantity'] is double)
           ? (json['remaining_job_quantity'] as double).toInt()
-          : json['remaining_job_quantity'] as int?,
-      percentage: json['percentage'] is double
+          : json['remaining_job_quantity']
+              as int?, // Handle double to int conversion
+      percentage: (json['percentage'] is double)
           ? (json['percentage'] as double).toInt()
           : json['percentage'] as int?,
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
-      transportWeight: json['transport_weight'] is double
+      transportWeight: (json['transport_weight'] is double)
           ? (json['transport_weight'] as double).toInt()
-          : json['transport_weight'] as int?,
+          : json['transport_weight'] as int?, // Handle double to int conversion
       status: json['status'] as String?,
     );
   }

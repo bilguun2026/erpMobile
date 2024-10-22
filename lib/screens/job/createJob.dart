@@ -13,13 +13,47 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
   String? origin;
   String? destination;
   int? jobCoalQuantity;
-  String? status;
+  String? selectedTenderId; // To hold the selected tender ID
   bool _isLoading = false;
+  List<Map<String, dynamic>> tenders = []; // List to hold tenders
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchTenders(); // Fetch tenders when screen loads
+  }
+
+  // Method to fetch tenders
+  Future<void> _fetchTenders() async {
+    String? token = await StorageUtils.getToken();
+
+    try {
+      final response = await ApiUtils.get('tender-list/', token: token);
+      if (response is List) {
+        setState(() {
+          tenders = List<Map<String, dynamic>>.from(response);
+        });
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching tenders: $e')),
+      );
+    }
+  }
 
   // Method to handle job creation logic
   Future<void> _createJob() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      if (selectedTenderId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select a tender')),
+        );
+        return;
+      }
 
       String? token = await StorageUtils.getToken();
 
@@ -32,7 +66,8 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
         'origin': origin,
         'destination': destination,
         'job_coal_quantity': jobCoalQuantity,
-        'status': status,
+        'job_status': 'pending', // Static status set to 'pending'
+        'tender': selectedTenderId, // Include the selected tender ID
       };
 
       try {
@@ -117,6 +152,27 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the job coal quantity';
+                  }
+                  return null;
+                },
+              ),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Select Tender'),
+                value: selectedTenderId,
+                items: tenders.map((tender) {
+                  return DropdownMenuItem<String>(
+                    value: tender['id'].toString(),
+                    child: Text(tender['name']),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedTenderId = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a tender';
                   }
                   return null;
                 },

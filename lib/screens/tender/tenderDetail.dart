@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:erp_1/models/tenderModel.dart'; // Adjust path
+import 'package:erp_1/models/Models.dart'; // Adjust the path
 
-class JobDetailScreen extends StatelessWidget {
-  final Job job;
+class TenderDetailScreen extends StatelessWidget {
+  final Tender tender;
 
-  JobDetailScreen({required this.job});
+  TenderDetailScreen({required this.tender});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Job Details'),
+        title: Text(tender.name ?? 'Tender Details'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             _buildCombinedDetailSection(
-              title: 'Job Details',
+              title: 'Tender Details',
               details: {
-                'Job Coal Quantity': '${job.jobCoalQuantity ?? 'N/A'} tons',
-                'Origin': job.origin ?? 'N/A',
-                'Destination': job.destination ?? 'N/A',
-                'Status': job.jobStatus ?? 'N/A',
+                'Name': tender.name ?? 'N/A',
+                'Description': tender.description ?? 'N/A',
+                'Total Coal Quantity':
+                    '${tender.totalCoalQuantity ?? 'N/A'} tons',
+                'Origin': tender.origin ?? 'N/A',
+                'Destination': tender.destination ?? 'N/A',
+                'Deadline': tender.deadline ?? 'N/A',
+                'Status': tender.status ?? 'N/A',
               },
             ),
             SizedBox(height: 20),
             Text(
-              'Transports',
+              'Jobs',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            ...(job.transports
-                    ?.map((transport) => _buildTransportDetail(transport)) ??
-                [Text('No transports available')]),
+            ...(tender.jobs?.map((job) => _buildJobCard(job)) ??
+                [Text('No jobs available')]),
           ],
         ),
       ),
@@ -71,6 +74,44 @@ class JobDetailScreen extends StatelessWidget {
                     ],
                   ),
                 )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildJobCard(Job job) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Job Details',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 10),
+            _buildCombinedDetailSection(
+              title: '',
+              details: {
+                'Job Coal Quantity': '${job.jobCoalQuantity ?? 'N/A'} tons',
+                'Origin': job.origin ?? 'N/A',
+                'Destination': job.destination ?? 'N/A',
+                'Status': job.jobStatus ?? 'N/A',
+              },
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Transports',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 10),
+            ...(job.transports
+                    ?.map((transport) => _buildTransportDetail(transport)) ??
+                [Text('No transports available')]),
           ],
         ),
       ),
