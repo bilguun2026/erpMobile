@@ -114,6 +114,13 @@ class Transport {
   final String? endDate;
   final int? transportWeight;
   final String? status;
+  final String? job;
+  final String? vehicle;
+  final int? driver;
+  final int? user;
+  final String? pointANote;
+  final String? pointBNote;
+  final String? generalSupervisorNote;
 
   Transport({
     this.id,
@@ -123,6 +130,13 @@ class Transport {
     this.endDate,
     this.transportWeight,
     this.status,
+    this.job,
+    this.vehicle,
+    this.driver,
+    this.user,
+    this.pointANote,
+    this.pointBNote,
+    this.generalSupervisorNote,
   });
 
   factory Transport.fromJson(Map<String, dynamic> json) {
@@ -141,6 +155,112 @@ class Transport {
           ? (json['transport_weight'] as double).toInt()
           : json['transport_weight'] as int?, // Handle double to int conversion
       status: json['status'] as String?,
+      job: json['job'] as String?,
+      vehicle: json['vehicle'] as String?,
+      driver: json['driver'] as int?,
+      user: json['user'] as int?,
+      pointANote: json['point_a_note'] as String?,
+      pointBNote: json['point_b_note'] as String?,
+      generalSupervisorNote: json['general_supervisor_note'] as String?,
+    );
+  }
+}
+
+class Salary {
+  final String id;
+  final String user;
+  final double baseSalary;
+  final double bonus;
+  final double travelAllowance;
+  final double foodAllowance;
+  final double housingAllowance;
+  final double deductions;
+  final double tax;
+  final int overtimeHours;
+  final double overtimeRate;
+  final double totalSalary;
+  final String salaryDate;
+
+  Salary({
+    required this.id,
+    required this.user,
+    required this.baseSalary,
+    required this.bonus,
+    required this.travelAllowance,
+    required this.foodAllowance,
+    required this.housingAllowance,
+    required this.deductions,
+    required this.tax,
+    required this.overtimeHours,
+    required this.overtimeRate,
+    required this.totalSalary,
+    required this.salaryDate,
+  });
+
+  factory Salary.fromJson(Map<String, dynamic> json) {
+    double _parseDouble(dynamic value) {
+      if (value is String) {
+        return double.tryParse(value) ?? 0.0; // Convert from String to double
+      } else if (value is num) {
+        return value.toDouble(); // Convert num (int or double) to double
+      } else {
+        return 0.0; // Default to 0.0 if the value is neither a String nor num
+      }
+    }
+
+    int _parseInt(dynamic value) {
+      if (value is String) {
+        return int.tryParse(value) ?? 0; // Convert from String to int
+      } else if (value is int) {
+        return value; // Use int directly
+      } else {
+        return 0; // Default to 0 if the value is neither a String nor int
+      }
+    }
+
+    return Salary(
+      id: json['id'].toString(),
+      user: json['user'].toString(),
+      baseSalary: _parseDouble(json['base_salary']),
+      bonus: _parseDouble(json['bonus']),
+      travelAllowance: _parseDouble(json['travel_allowance']),
+      foodAllowance: _parseDouble(json['food_allowance']),
+      housingAllowance: _parseDouble(json['housing_allowance']),
+      deductions: _parseDouble(json['deductions']),
+      tax: _parseDouble(json['tax']),
+      overtimeHours: _parseInt(json['overtime_hours']),
+      overtimeRate: _parseDouble(json['overtime_rate']),
+      totalSalary: _parseDouble(json['total_salary']),
+      salaryDate: json['salary_date'].toString(),
+    );
+  }
+}
+
+class Payroll {
+  final String id;
+  final String user;
+  final String month;
+  final double? totalSalary;
+  final String status;
+  final String? paidOn;
+
+  Payroll({
+    required this.id,
+    required this.user,
+    required this.month,
+    this.totalSalary,
+    required this.status,
+    this.paidOn,
+  });
+
+  factory Payroll.fromJson(Map<String, dynamic> json) {
+    return Payroll(
+      id: json['id'],
+      user: json['user'],
+      month: json['month'],
+      totalSalary: json['total_salary'],
+      status: json['status'],
+      paidOn: json['paid_on'],
     );
   }
 }
