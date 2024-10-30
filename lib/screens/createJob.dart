@@ -3,6 +3,8 @@ import 'package:erp_1/utils/api.dart'; // API utility
 import 'package:erp_1/utils/storage.dart'; // For token storage
 
 class CreateJobScreen extends StatefulWidget {
+  const CreateJobScreen({super.key});
+
   @override
   _CreateJobScreenState createState() => _CreateJobScreenState();
 }
@@ -43,7 +45,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Job created successfully!')),
+            const SnackBar(content: Text('Job created successfully!')),
           );
           Navigator.pop(context);
         }
@@ -63,16 +65,16 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Job'),
+        title: const Text('Create Job'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Job Name'),
+                decoration: const InputDecoration(labelText: 'Job Name'),
                 onSaved: (value) {
                   name = value;
                 },
@@ -84,7 +86,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Origin'),
+                decoration: const InputDecoration(labelText: 'Origin'),
                 onSaved: (value) {
                   origin = value;
                 },
@@ -96,7 +98,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Destination'),
+                decoration: const InputDecoration(labelText: 'Destination'),
                 onSaved: (value) {
                   destination = value;
                 },
@@ -108,8 +110,8 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 },
               ),
               TextFormField(
-                decoration:
-                    InputDecoration(labelText: 'Job Coal Quantity (tons)'),
+                decoration: const InputDecoration(
+                    labelText: 'Job Coal Quantity (tons)'),
                 keyboardType: TextInputType.number,
                 onSaved: (value) {
                   jobCoalQuantity = int.tryParse(value!);
@@ -121,12 +123,12 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: _createJob,
-                      child: Text('Create Job'),
+                      child: const Text('Create Job'),
                     ),
             ],
           ),

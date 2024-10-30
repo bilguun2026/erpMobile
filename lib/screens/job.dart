@@ -7,6 +7,8 @@ import 'package:erp_1/screens/createJob.dart'; // Create Job Screen
 import 'package:erp_1/screens/jobDetail.dart'; // Job Detail Screen
 
 class JobScreen extends StatefulWidget {
+  const JobScreen({super.key});
+
   @override
   _JobScreenState createState() => _JobScreenState();
 }
@@ -49,7 +51,7 @@ class _JobScreenState extends State<JobScreen> {
     return CustomScaffold(
       title: "Jobs",
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : jobList != null
               ? RefreshIndicator(
                   onRefresh: _refreshJobs,
@@ -76,7 +78,7 @@ class _JobScreenState extends State<JobScreen> {
                     ),
                   ),
                 )
-              : Center(child: Text('No jobs available')),
+              : const Center(child: Text('No jobs available')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to Create Job Screen
@@ -85,8 +87,8 @@ class _JobScreenState extends State<JobScreen> {
             MaterialPageRoute(builder: (context) => CreateJobScreen()),
           );
         },
-        child: Icon(Icons.add),
         tooltip: 'Create Job',
+        child: Icon(Icons.add),
       ),
     );
   }

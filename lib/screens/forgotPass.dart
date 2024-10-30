@@ -3,6 +3,8 @@ import '../utils/api.dart'; // API utility
 import '../utils/dialog.dart'; // Dialog utility for success/error messages
 
 class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
@@ -33,11 +35,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text('Амжилттай'),
-          content: Text('Нууц үг амжилттай солигдлоо. Дахин нэвтэрнэ үү!'),
+          title: const Text('Амжилттай'),
+          content:
+              const Text('Нууц үг амжилттай солигдлоо. Дахин нэвтэрнэ үү!'),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(ctx).pop(); // Close the dialog
                 Navigator.pushReplacementNamed(
@@ -59,7 +62,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Нууц үг солих'),
+        title: const Text('Нууц үг солих'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,20 +72,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             // Username Input
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Нэвтрэх нэр',
                 hintText: 'Нэвтрэх нэрээ оруулна уу.',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // New Password Input
             TextField(
               controller: _newPasswordController,
               obscureText: _isObscured,
               decoration: InputDecoration(
                 labelText: 'Шинэ нууц үг',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isObscured ? Icons.visibility : Icons.visibility_off,
@@ -95,12 +98,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _resetPassword,
-                    child: Text('Нууц үг солих'),
+                    child: const Text('Нууц үг солих'),
                   ),
           ],
         ),

@@ -7,6 +7,7 @@ class CustomScaffold extends StatelessWidget {
       floatingActionButton; // Add floatingActionButton as an optional parameter
 
   const CustomScaffold({
+    super.key,
     required this.title,
     required this.body,
     this.floatingActionButton, // Accept the floatingActionButton as a parameter
@@ -22,7 +23,7 @@ class CustomScaffold extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -35,29 +36,29 @@ class CustomScaffold extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.auto_graph),
-              title: Text('Үндсэн'),
+              leading: const Icon(Icons.auto_graph),
+              title: const Text('Үндсэн'),
               onTap: () async {
                 await _dashboard(context); // Navigate to dashboard
               },
             ),
             ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Тендер'),
+              leading: const Icon(Icons.list),
+              title: const Text('Тендер'),
               onTap: () async {
                 await _tender(context); // Navigate to tenders
               },
             ),
             ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Ажил'),
+              leading: const Icon(Icons.list),
+              title: const Text('Ажил'),
               onTap: () async {
                 await _job(context); // Navigate to tenders
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () async {
                 await _logout(context); // Perform logout
               },

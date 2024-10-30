@@ -5,7 +5,7 @@ class TenderTile extends StatelessWidget {
   final Tender tender;
   final VoidCallback onTap; // Callback for tap action
 
-  TenderTile({required this.tender, required this.onTap});
+  const TenderTile({super.key, required this.tender, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class TenderTile extends StatelessWidget {
       child: ListTile(
         title: Text(
           tender.name ?? 'Unnamed Tender',
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),
@@ -23,20 +23,20 @@ class TenderTile extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
                 'Description: ${tender.description ?? 'No description provided'}'),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Text(
                 'Total Coal Quantity: ${tender.totalCoalQuantity ?? 'N/A'} tons'),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Text('Origin: ${tender.origin ?? 'Unknown'}'),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Text('Destination: ${tender.destination ?? 'Unknown'}'),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Text('Deadline: ${tender.deadline ?? 'No deadline'}',
-                style: TextStyle(color: Colors.red)),
-            SizedBox(height: 4.0),
+                style: const TextStyle(color: Colors.red)),
+            const SizedBox(height: 4.0),
             Text(
               'Status: ${tender.status ?? 'Unknown'}',
               style: TextStyle(
@@ -45,7 +45,7 @@ class TenderTile extends StatelessWidget {
             ),
           ],
         ),
-        trailing: Icon(Icons.arrow_forward_ios),
+        trailing: const Icon(Icons.arrow_forward_ios),
         onTap: onTap, // Trigger onTap when the tile is tapped
       ),
     );

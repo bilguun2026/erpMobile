@@ -3,6 +3,8 @@ import 'package:erp_1/utils/api.dart'; // Adjust the path for your API utility
 import 'package:erp_1/utils/storage.dart'; // Adjust the path for storage utility (token)
 
 class CreateTenderScreen extends StatefulWidget {
+  const CreateTenderScreen({super.key});
+
   @override
   _CreateTenderScreenState createState() => _CreateTenderScreenState();
 }
@@ -62,7 +64,7 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
         } else {
           // Show success message
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Tender created successfully!')),
+            const SnackBar(content: Text('Tender created successfully!')),
           );
           // Navigate back to the previous screen
           Navigator.pop(context);
@@ -84,22 +86,22 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Тендер үүсгэх'),
+        title: const Text('Тендер үүсгэх'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Go back to previous screen
           },
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Tender Name'),
+                decoration: const InputDecoration(labelText: 'Tender Name'),
                 onSaved: (value) {
                   name = value;
                 },
@@ -111,7 +113,7 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 onSaved: (value) {
                   description = value;
                 },
@@ -123,8 +125,8 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
                 },
               ),
               TextFormField(
-                decoration:
-                    InputDecoration(labelText: 'Total Coal Quantity (tons)'),
+                decoration: const InputDecoration(
+                    labelText: 'Total Coal Quantity (tons)'),
                 keyboardType: TextInputType.number,
                 onSaved: (value) {
                   totalCoalQuantity = int.tryParse(value!);
@@ -137,7 +139,7 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Origin'),
+                decoration: const InputDecoration(labelText: 'Origin'),
                 onSaved: (value) {
                   origin = value;
                 },
@@ -149,7 +151,7 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Destination'),
+                decoration: const InputDecoration(labelText: 'Destination'),
                 onSaved: (value) {
                   destination = value;
                 },
@@ -162,7 +164,7 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
               ),
               // Date picker for deadline
               TextFormField(
-                decoration: InputDecoration(labelText: 'Deadline'),
+                decoration: const InputDecoration(labelText: 'Deadline'),
                 onTap: () async {
                   FocusScope.of(context)
                       .requestFocus(FocusNode()); // Hide keyboard
@@ -184,12 +186,12 @@ class _CreateTenderScreenState extends State<CreateTenderScreen> {
                         ? "${deadline!.year}-${deadline!.month.toString().padLeft(2, '0')}-${deadline!.day.toString().padLeft(2, '0')}"
                         : ''),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: _createTender,
-                      child: Text('Create Tender'),
+                      child: const Text('Create Tender'),
                     ),
             ],
           ),

@@ -6,6 +6,8 @@ import '../utils/api.dart'; // For making API requests
 import 'package:erp_1/widgets/appBar.dart'; // Import CustomScaffold
 
 class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -49,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       });
       print('Error fetching dashboard data: $error');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching dashboard data.')),
+        const SnackBar(content: Text('Error fetching dashboard data.')),
       );
     }
   }
@@ -68,7 +70,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return CustomScaffold(
       title: "Dashboard",
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : dashboardData != null
               ? RefreshIndicator(
                   onRefresh: _fetchDashboardData,
@@ -77,7 +79,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: _buildJobAndTransportList(),
                   ),
                 )
-              : Center(child: Text('No data available')),
+              : const Center(child: Text('No data available')),
     );
   }
 
@@ -95,32 +97,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Container(
                 width: screenWidth * 1.0,
                 height: 200,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 30), // space for the tab
+                    const SizedBox(height: 30), // space for the tab
                     Text("Нийт тонн: ${job['job_coal_quantity']}",
-                        style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    Row(
+                        style: const TextStyle(fontSize: 16)),
+                    const SizedBox(height: 8),
+                    const Row(
                       children: [
                         Text("Эхлэх хугацаа:"),
                         Spacer(),
                         Text("Дуусах хугацаа:"),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Row(
                       children: [
                         Text("${job['startDate']}"),
-                        Spacer(),
+                        const Spacer(),
                         Text("${job['endDate']}"),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text("Хаанаас: ${job['origin']}"),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text("Хаашаа: ${job['destination']}"),
                   ],
                 ),
@@ -130,15 +132,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               top: 0,
               left: 30,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Ажил',
                   style: TextStyle(fontSize: 16),
                 ),
@@ -148,8 +151,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               top: 0,
               right: 20,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
@@ -157,7 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 child: Text('${job['job_tender_name']}',
-                    style: TextStyle(fontSize: 16)),
+                    style: const TextStyle(fontSize: 16)),
               ),
             ),
             Positioned(
@@ -169,7 +173,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 value: job['percentage'] / 100,
                 strokeWidth: 6,
                 backgroundColor: Colors.white,
-                valueColor: AlwaysStoppedAnimation<Color>(
+                valueColor: const AlwaysStoppedAnimation<Color>(
                     Color.fromARGB(255, 76, 244, 54)),
               ),
             ),
@@ -178,7 +182,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               bottom: 40,
               child: Text(
                 "${job["percentage"]}% ",
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             Positioned(
@@ -193,7 +197,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildJobAndTransportList() {
-    if (dashboardData == null) return Text('No jobs or transports found.');
+    if (dashboardData == null)
+      return const Text('No jobs or transports found.');
     var jobs = dashboardData!['jobs'] ?? [];
     var transports = dashboardData!['transports'] ?? [];
     double screenWidth = MediaQuery.of(context).size.width;
@@ -214,7 +219,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildTransportCard(
       Map<String, dynamic> transport, double screenWidth) {
     return Container(
-      margin: EdgeInsets.only(top: 12),
+      margin: const EdgeInsets.only(top: 12),
       child: Stack(
         children: [
           Card(
@@ -226,39 +231,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Container(
               width: screenWidth * 1.0,
               height: 400,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 30), // space for the tab
+                  const SizedBox(height: 30), // space for the tab
                   Text("Нийт тонн: ${transport['transport_weight']}",
-                      style: TextStyle(fontSize: 16)),
-                  SizedBox(height: 8),
-                  Row(children: [
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
+                  const Row(children: [
                     Text("Эхлэх хугацаа:"),
                     Spacer(),
                     Text("Дуусах хугацаа:"),
                   ]),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(children: [
                     Text("${transport['startDate']}"),
-                    Spacer(),
+                    const Spacer(),
                     Text("${transport['endDate']}"),
                   ]),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildTransportProgress(transport, screenWidth),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                       "Тээврийн хэрэгсийн улсын дугаар: ${transport['vehicle_registration_number']}"),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                       "Тээврийн хэрэгслийн даац: ${transport['vehicle_capacity']}"),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     "Тээврийн хэрэгслийн аюулгүй байдал: ${transport['vehicle_safety'] == true ? 'Аюулгүй' : 'Асуудалтай'}",
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildNoteButtons(transport),
                 ],
               ),
@@ -268,15 +273,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
             top: 0,
             left: 30,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Тээвэрлэлт',
                 style: TextStyle(fontSize: 16),
               ),
@@ -286,8 +291,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             top: 0,
             right: 20,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
@@ -295,7 +300,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               child: Text('${transport['job_tender_name']}',
-                  style: TextStyle(fontSize: 16)),
+                  style: const TextStyle(fontSize: 16)),
             ),
           ),
           Positioned(
@@ -310,7 +315,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildTransportProgress(
       Map<String, dynamic> transport, double screenWidth) {
-    return Container(
+    return SizedBox(
       height: 40,
       child: Stack(
         children: [
@@ -321,15 +326,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 value: transport['percentage'] / 100,
                 minHeight: 8,
                 backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
               ),
             ),
           ),
           AnimatedPositioned(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             left: (screenWidth - 40) * (transport['percentage'] / 100),
             top: 0,
-            child: Icon(
+            child: const Icon(
               Icons.directions_car,
               size: 30,
               color: Colors.red,
@@ -353,9 +358,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   : 'Тэмдэглэл байхгүй байна',
             );
           },
-          child: Text('А тэмдэглэл'),
+          child: const Text('А тэмдэглэл'),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         ElevatedButton(
           onPressed: () {
             _showNoteDialog(
@@ -366,9 +371,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   : 'Тэмдэглэл байхгүй байна',
             );
           },
-          child: Text('Б тэмдэглэл'),
+          child: const Text('Б тэмдэглэл'),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         ElevatedButton(
           onPressed: () {
             _showNoteDialog(
@@ -379,7 +384,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   : 'Тэмдэглэл байхгүй байна',
             );
           },
-          child: Text('Ерөнхий'),
+          child: const Text('Ерөнхий'),
         ),
       ],
     );
@@ -394,7 +399,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           content: Text(note),
           actions: <Widget>[
             TextButton(
-              child: Text('Close'),
+              child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

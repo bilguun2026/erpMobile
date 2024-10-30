@@ -8,6 +8,8 @@ import '../widgets/button.dart';
 import '../utils/dialog.dart'; // Dialog utility
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -109,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         'assets/Vector.svg', // Adjust path
                         height: 100, // Adjust size
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         'Ай Хө',
                         style: TextStyle(
@@ -118,18 +120,18 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.blue[800],
                         ),
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Text(
                         'ERP System',
                         style: TextStyle(fontSize: 20, color: Colors.grey[600]),
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 16),
-                Align(
+                const SizedBox(height: 16),
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Нэвтрэх',
@@ -140,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 // Username Input
                 TextField(
                   controller: _usernameController,
@@ -152,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 // Password Input
                 TextField(
                   controller: _passwordController,
@@ -174,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -186,13 +188,13 @@ class _LoginPageState extends State<LoginPage> {
                               builder: (context) => ForgotPasswordPage()),
                         );
                       },
-                      child: Text('Нууц үг мартсан'),
+                      child: const Text('Нууц үг мартсан'),
                     ),
                   ],
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : GradientButton(
                         text: 'Нэвтрэх',
                         onPressed: _login, // Call the login function

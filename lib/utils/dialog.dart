@@ -12,7 +12,7 @@ class DialogUtils {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -28,7 +28,7 @@ class DialogUtils {
         message: message,
         actions: <Widget>[
           TextButton(
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () {
               Navigator.of(ctx).pop();
             },

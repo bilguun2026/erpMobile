@@ -4,7 +4,7 @@ import 'package:erp_1/models/tenderModel.dart'; // Adjust the path
 class TenderDetailScreen extends StatelessWidget {
   final Tender tender;
 
-  TenderDetailScreen({required this.tender});
+  const TenderDetailScreen({super.key, required this.tender});
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,13 @@ class TenderDetailScreen extends StatelessWidget {
                 'Status': tender.status ?? 'N/A',
               },
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Jobs',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             ...(tender.jobs?.map((job) => _buildJobCard(job)) ??
-                [Text('No jobs available')]),
+                [const Text('No jobs available')]),
           ],
         ),
       ),
@@ -48,7 +48,7 @@ class TenderDetailScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 3,
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -56,20 +56,20 @@ class TenderDetailScreen extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.blueAccent,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ...details.entries.map((entry) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(entry.key,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                       Text(entry.value),
                     ],
                   ),
@@ -82,18 +82,18 @@ class TenderDetailScreen extends StatelessWidget {
 
   Widget _buildJobCard(Job job) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       elevation: 3,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Job Details',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             _buildCombinedDetailSection(
               title: '',
               details: {
@@ -103,15 +103,15 @@ class TenderDetailScreen extends StatelessWidget {
                 'Status': job.jobStatus ?? 'N/A',
               },
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Transports',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ...(job.transports
                     ?.map((transport) => _buildTransportDetail(transport)) ??
-                [Text('No transports available')]),
+                [const Text('No transports available')]),
           ],
         ),
       ),
@@ -120,7 +120,7 @@ class TenderDetailScreen extends StatelessWidget {
 
   Widget _buildTransportDetail(Transport transport) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

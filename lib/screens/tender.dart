@@ -7,6 +7,8 @@ import 'package:erp_1/screens/CreateTender.dart'; // Import the create tender sc
 import 'package:erp_1/screens/tenderDetail.dart'; // Import TenderDetailScreen
 
 class TenderScreen extends StatefulWidget {
+  const TenderScreen({super.key});
+
   @override
   _TenderScreenState createState() => _TenderScreenState();
 }
@@ -51,7 +53,7 @@ class _TenderScreenState extends State<TenderScreen> {
     return CustomScaffold(
       title: "Tenders",
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : tenderList != null
               ? RefreshIndicator(
                   onRefresh: _refreshTenders, // Add refresh function
@@ -78,7 +80,7 @@ class _TenderScreenState extends State<TenderScreen> {
                     ),
                   ),
                 )
-              : Center(child: Text('No tenders available')),
+              : const Center(child: Text('No tenders available')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to the Tender Creation screen when button is pressed
@@ -87,8 +89,8 @@ class _TenderScreenState extends State<TenderScreen> {
             MaterialPageRoute(builder: (context) => CreateTenderScreen()),
           );
         },
-        child: Icon(Icons.add),
         tooltip: 'Тендер үүсгэх',
+        child: Icon(Icons.add),
       ),
     );
   }

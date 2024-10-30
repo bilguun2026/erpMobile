@@ -5,7 +5,7 @@ class JobTile extends StatelessWidget {
   final Job job;
   final VoidCallback onTap; // Callback for tapping the job
 
-  JobTile({required this.job, required this.onTap});
+  const JobTile({super.key, required this.job, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class JobTile extends StatelessWidget {
       child: ListTile(
         title: Text(
           job.id ?? 'Unnamed Job',
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),
@@ -23,13 +23,13 @@ class JobTile extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text('Origin: ${job.origin ?? 'N/A'}'),
             Text('Destination: ${job.destination ?? 'N/A'}'),
             Text('Status: ${job.jobStatus ?? 'N/A'}'),
           ],
         ),
-        trailing: Icon(Icons.arrow_forward_ios),
+        trailing: const Icon(Icons.arrow_forward_ios),
         onTap: onTap,
       ),
     );

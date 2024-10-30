@@ -22,7 +22,7 @@ class JobService {
       return jobsJson.map((json) => Job.fromJson(json)).toList();
     } catch (error) {
       print('Error in fetchJobs: $error');
-      throw error;
+      rethrow;
     }
   }
 
@@ -44,7 +44,7 @@ class JobService {
       return Job.fromJson(response);
     } catch (error) {
       print('Error in createJob: $error');
-      throw error;
+      rethrow;
     }
   }
 
@@ -61,7 +61,7 @@ class JobService {
       return Job.fromJson(response);
     } catch (error) {
       print('Error in getJobById: $error');
-      throw error;
+      rethrow;
     }
   }
 
@@ -79,7 +79,7 @@ class JobService {
       return Job.fromJson(response);
     } catch (error) {
       print('Error in updateJob: $error');
-      throw error;
+      rethrow;
     }
   }
 
@@ -94,7 +94,7 @@ class JobService {
       }
     } catch (error) {
       print('Error in deleteJob: $error');
-      throw error;
+      rethrow;
     }
   }
 }
