@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:erp_1/models/tenderModel.dart'; // Adjust path
+import 'package:erp_1/models/Models.dart'; // Adjust path
 
 class JobTile extends StatelessWidget {
   final Job job;

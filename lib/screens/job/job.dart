@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:erp_1/models/tenderModel.dart'; // Adjust the path
+import 'package:erp_1/models/Models.dart'; // Adjust the path
 import 'package:erp_1/utils/jobService.dart'; // Adjust the path
 import 'package:erp_1/widgets/job_tile.dart'; // Adjust the path
 import 'package:erp_1/widgets/appBar.dart'; // CustomScaffold
-import 'package:erp_1/screens/createJob.dart'; // Create Job Screen
-import 'package:erp_1/screens/jobDetail.dart'; // Job Detail Screen
+import 'package:erp_1/screens/job/createJob.dart'; // Create Job Screen
+import 'package:erp_1/screens/job/jobDetail.dart'; // Job Detail Screen
 
 class JobScreen extends StatefulWidget {
   const JobScreen({super.key});
@@ -31,9 +31,9 @@ class _JobScreenState extends State<JobScreen> {
     try {
       jobList = await JobService().fetchJobs();
       print(jobList);
-    } catch (e) {
-      // Handle errors here
+    } catch (e, stackTrace) {
       print('Error fetching jobs: $e');
+      print('Stack trace: $stackTrace');
     } finally {
       setState(() {
         _isLoading = false;

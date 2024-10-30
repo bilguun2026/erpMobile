@@ -3,8 +3,6 @@ import 'package:erp_1/utils/api.dart'; // API utility
 import 'package:erp_1/utils/storage.dart'; // For token storage
 
 class CreateJobScreen extends StatefulWidget {
-  const CreateJobScreen({super.key});
-
   @override
   _CreateJobScreenState createState() => _CreateJobScreenState();
 }
@@ -15,13 +13,47 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
   String? origin;
   String? destination;
   int? jobCoalQuantity;
-  String? status;
+  String? selectedTenderId; // To hold the selected tender ID
   bool _isLoading = false;
+  List<Map<String, dynamic>> tenders = []; // List to hold tenders
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchTenders(); // Fetch tenders when screen loads
+  }
+
+  // Method to fetch tenders
+  Future<void> _fetchTenders() async {
+    String? token = await StorageUtils.getToken();
+
+    try {
+      final response = await ApiUtils.get('tender-list/', token: token);
+      if (response is List) {
+        setState(() {
+          tenders = List<Map<String, dynamic>>.from(response);
+        });
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching tenders: $e')),
+      );
+    }
+  }
 
   // Method to handle job creation logic
   Future<void> _createJob() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      if (selectedTenderId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select a tender')),
+        );
+        return;
+      }
 
       String? token = await StorageUtils.getToken();
 
@@ -34,7 +66,8 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
         'origin': origin,
         'destination': destination,
         'job_coal_quantity': jobCoalQuantity,
-        'status': status,
+        'job_status': 'pending', // Static status set to 'pending'
+        'tender': selectedTenderId, // Include the selected tender ID
       };
 
       try {
@@ -45,7 +78,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Job created successfully!')),
+            SnackBar(content: Text('Job created successfully!')),
           );
           Navigator.pop(context);
         }
@@ -65,16 +98,16 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Job'),
+        title: Text('Create Job'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Job Name'),
+                decoration: InputDecoration(labelText: 'Job Name'),
                 onSaved: (value) {
                   name = value;
                 },
@@ -86,7 +119,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Origin'),
+                decoration: InputDecoration(labelText: 'Origin'),
                 onSaved: (value) {
                   origin = value;
                 },
@@ -98,7 +131,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Destination'),
+                decoration: InputDecoration(labelText: 'Destination'),
                 onSaved: (value) {
                   destination = value;
                 },
@@ -110,8 +143,8 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'Job Coal Quantity (tons)'),
+                decoration:
+                    InputDecoration(labelText: 'Job Coal Quantity (tons)'),
                 keyboardType: TextInputType.number,
                 onSaved: (value) {
                   jobCoalQuantity = int.tryParse(value!);
@@ -123,12 +156,33 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Select Tender'),
+                value: selectedTenderId,
+                items: tenders.map((tender) {
+                  return DropdownMenuItem<String>(
+                    value: tender['id'].toString(),
+                    child: Text(tender['name']),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedTenderId = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a tender';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
               _isLoading
-                  ? const CircularProgressIndicator()
+                  ? CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: _createJob,
-                      child: const Text('Create Job'),
+                      child: Text('Create Job'),
                     ),
             ],
           ),

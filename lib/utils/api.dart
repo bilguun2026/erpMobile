@@ -2,17 +2,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiUtils {
-  // Base URL of your backend
-  static const String baseUrl = 'http://192.168.175.67:8000';
+  static const String baseUrl = 'http://192.168.230.67:8000';
 
-  // GET request with optional token
   static Future<dynamic> get(String endpoint, {String? token}) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/$endpoint'),
         headers: _headers(token),
       );
-
       return _processResponse(response);
     } catch (error) {
       _logError('GET', endpoint, error);
@@ -20,7 +17,6 @@ class ApiUtils {
     }
   }
 
-  // POST request with optional token and body
   static Future<dynamic> post(String endpoint, Map<String, dynamic> body,
       {String? token}) async {
     try {
@@ -29,7 +25,6 @@ class ApiUtils {
         headers: _headers(token),
         body: jsonEncode(body),
       );
-
       return _processResponse(response);
     } catch (error) {
       _logError('POST', endpoint, error);
@@ -37,7 +32,6 @@ class ApiUtils {
     }
   }
 
-  // PUT request (for updating data)
   static Future<dynamic> put(String endpoint, Map<String, dynamic> body,
       {String? token}) async {
     try {
@@ -46,7 +40,6 @@ class ApiUtils {
         headers: _headers(token),
         body: jsonEncode(body),
       );
-
       return _processResponse(response);
     } catch (error) {
       _logError('PUT', endpoint, error);
@@ -54,14 +47,27 @@ class ApiUtils {
     }
   }
 
-  // DELETE request (for deleting data)
+  static Future<dynamic> patch(String endpoint, Map<String, dynamic> body,
+      {String? token}) async {
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/$endpoint'),
+        headers: _headers(token),
+        body: jsonEncode(body),
+      );
+      return _processResponse(response);
+    } catch (error) {
+      _logError('PATCH', endpoint, error);
+      return {'error': 'Failed to connect to the server'};
+    }
+  }
+
   static Future<dynamic> delete(String endpoint, {String? token}) async {
     try {
       final response = await http.delete(
         Uri.parse('$baseUrl/$endpoint'),
         headers: _headers(token),
       );
-
       return _processResponse(response);
     } catch (error) {
       _logError('DELETE', endpoint, error);
@@ -69,7 +75,6 @@ class ApiUtils {
     }
   }
 
-  // Helper to add headers, including authorization token if available
   static Map<String, String> _headers(String? token) {
     return {
       'Content-Type': 'application/json',
@@ -77,7 +82,6 @@ class ApiUtils {
     };
   }
 
-  // Helper to process the response and handle errors
   static dynamic _processResponse(http.Response response) {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return jsonDecode(response.body);
@@ -91,14 +95,8 @@ class ApiUtils {
     }
   }
 
-  // Logger for handling and logging errors
   static void _logError(String method, String? endpoint, dynamic error) {
     final errorMessage = 'Error during $method request to $endpoint: $error';
-
-    // Log to console
     print(errorMessage);
-
-    // Optionally, send this to an external logging service in the future
-    // Example: Sentry.captureMessage(errorMessage);
   }
 }

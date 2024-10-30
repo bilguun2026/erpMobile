@@ -1,4 +1,4 @@
-import 'package:erp_1/models/tenderModel.dart'; // Adjust the path to your Job model
+import 'package:erp_1/models/Models.dart'; // Adjust the path to your Job model
 import 'package:erp_1/utils/api.dart'; // Adjust the path to your ApiUtils
 import 'package:erp_1/utils/storage.dart'; // Adjust the path to your StorageUtils
 
@@ -11,14 +11,15 @@ class JobService {
 
       // Call the API to get jobs
       final response = await ApiUtils.get('jobs/', token: token);
+      print('Raw response: $response'); // Print raw response
 
-      // Check if there was an error in the response
-      if (response['error'] != null) {
-        throw Exception('Error fetching jobs: ${response['error']}');
+      // Check if the response is actually a list
+      if (response is! List<dynamic>) {
+        throw Exception('Unexpected response format: $response');
       }
 
       // Parse the response into a list of Job objects
-      List<dynamic> jobsJson = response as List<dynamic>;
+      List<dynamic> jobsJson = response;
       return jobsJson.map((json) => Job.fromJson(json)).toList();
     } catch (error) {
       print('Error in fetchJobs: $error');

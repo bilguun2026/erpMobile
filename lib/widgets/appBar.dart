@@ -57,8 +57,22 @@ class CustomScaffold extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              leading: Icon(Icons.car_rental),
+              title: Text('Тээвэр'),
+              onTap: () async {
+                await _transport(context); // Navigate to tenders
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.money),
+              title: Text('Цалин'),
+              onTap: () async {
+                await _salary(context); // Navigate to tenders
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
               onTap: () async {
                 await _logout(context); // Perform logout
               },
@@ -84,6 +98,14 @@ class CustomScaffold extends StatelessWidget {
 
   Future<void> _job(BuildContext context) async {
     Navigator.pushReplacementNamed(context, '/jobs');
+  }
+
+  Future<void> _transport(BuildContext context) async {
+    Navigator.pushReplacementNamed(context, '/transports');
+  }
+
+  Future<void> _salary(BuildContext context) async {
+    Navigator.pushReplacementNamed(context, '/salary');
   }
 
   Future<void> _dashboard(BuildContext context) async {
